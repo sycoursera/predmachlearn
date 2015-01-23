@@ -42,13 +42,13 @@
 <h3>
 <a id="data-sets" class="anchor" href="#data-sets" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data sets</h3>
 
-<p>The Data sets were loaded with read.csv() function. Both "NA" and "" (empty) strigns were treates as NA.</p>
+<p>The Data sets were loaded with read.csv() function. Both "NA" and "" (empty) strings were consider as NA.</p>
 
 <pre><code>test_set = read.csv("pml-testing.csv")
 training_set = read.csv("pml-training.csv", na.strings = c("NA", "") )
 </code></pre>
 
-<p>There are lot of variables with NA or empty values. I believe the imputing will not improve fit because number of missing values is too large (more than 95%) for some variables, that is we have no enough data representation for these variables.
+<p>There are lot of variables with NA or empty values. I believe the imputing will not improve fit because number of missing values is too large (more than 95%) for some variables and we have no enough data representation for such variables.
 These columns were removed with following code:</p>
 
 <pre><code># remove columns with number of NA's more than NA_rate
@@ -92,7 +92,7 @@ test_set = remove_NA_Columns(test_set, 0.9)
 <strong>"raw_timestamp_part_1"</strong> and <strong>"raw_timestamp_part_2"</strong> <em>- row timestamp</em>
 </li>
 <li>
-<strong>"cvtd_timestamp"</strong>  <em>- more readable for of timestamp</em>
+<strong>"cvtd_timestamp"</strong>  <em>- more readable form of timestamp</em>
 </li>
 <li>
 <strong>"new_window"</strong> and <strong>"num_window"</strong> <em>- semantics unknown</em>
@@ -131,7 +131,7 @@ plot(svd1$d^2/sum(svd1$d^2), pch = 19, xlab = "Singular vector", ylab = "Varianc
 <h3>
 <a id="training-and-validation-sets" class="anchor" href="#training-and-validation-sets" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training and validation sets</h3>
 
-<p>The remaining <strong>training_set</strong> was splitted to training and validation sets using <em>caret</em> package:</p>
+<p>The remaining <strong>training_set</strong> was split to training and validation sets using <em>caret</em> package:</p>
 
 <pre><code>library(caret)
 inTrain &lt;- createDataPartition(y=training_set$classe,p=0.7, list=FALSE)
@@ -143,7 +143,7 @@ dim(training); dim(testing)
 <h3>
 <a id="fit-model-with-random-forest" class="anchor" href="#fit-model-with-random-forest" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fit model with Random Forest</h3>
 
-<p>Actually for Random Forest method there is no need for separate cross-validation or test set to get an unbiased estimate of the test set error, but I decided to use additional test set for sanity check.</p>
+<p>Actually Random Forest method doesn't requre separate cross-validation or test set to get an unbiased estimate of the test set error, but I decided to use additional test set for sanity check.</p>
 
 <pre><code>library(randomForest)
 set.seed(8484)
@@ -246,7 +246,7 @@ varImpPlot(modFit, cex=0.6, main="Random forest \nvariable importance")
 Accuracy : 0.9869
 </code></pre>
 
-<p>Prediction using both all sensor's variables and only four most important give same result on testing set pml-training.csv:</p>
+<p>Prediction using both all sensor's variables and only four most important variables gives same result on testing set pml-training.csv:</p>
 
 <pre><code>(pred_tst = predict(modFit,newdata=test_set))
 

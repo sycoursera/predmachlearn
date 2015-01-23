@@ -7,13 +7,13 @@
 ### Data sets
 
 
-The Data sets were loaded with read.csv() function. Both "NA" and "" (empty) strigns were treates as NA.
+The Data sets were loaded with read.csv() function. Both "NA" and "" (empty) strings were consider as NA.
 
     test_set = read.csv("pml-testing.csv")
     training_set = read.csv("pml-training.csv", na.strings = c("NA", "") )
 
 
-There are lot of variables with NA or empty values. I believe the imputing will not improve fit because number of missing values is too large (more than 95%) for some variables, that is we have no enough data representation for these variables.
+There are lot of variables with NA or empty values. I believe the imputing will not improve fit because number of missing values is too large (more than 95%) for some variables and we have no enough data representation for such variables.
 These columns were removed with following code:
 
     # remove columns with number of NA's more than NA_rate
@@ -38,7 +38,7 @@ Columns in the both data sets belongs to three types:
     + **"X"**               *- essentially row index*
     + **"user_name"**       *- user name*
     + **"raw_timestamp_part_1"** and **"raw_timestamp_part_2"** *- row timestamp*
-    + **"cvtd_timestamp"**  *- more readable for of timestamp*
+    + **"cvtd_timestamp"**  *- more readable form of timestamp*
     + **"new_window"** and **"num_window"** *- semantics unknown*
     
 
@@ -72,7 +72,7 @@ I decided to use only sensor's readings as relevant to the prediction task. Othe
 
 ### Training and validation sets
 
-The remaining **training_set** was splitted to training and validation sets using *caret* package:
+The remaining **training_set** was split to training and validation sets using *caret* package:
 
     library(caret)
     inTrain <- createDataPartition(y=training_set$classe,p=0.7, list=FALSE)
@@ -83,7 +83,7 @@ The remaining **training_set** was splitted to training and validation sets usin
 
 ### Fit model with Random Forest
 
-Actually for Random Forest method there is no need for separate cross-validation or test set to get an unbiased estimate of the test set error, but I decided to use additional test set for sanity check.
+Actually Random Forest method doesn't requre separate cross-validation or test set to get an unbiased estimate of the test set error, but I decided to use additional test set for sanity check.
 
 
     library(randomForest)
@@ -188,7 +188,7 @@ Attempt to fit model using only first 7 most important variables gives decent re
     Accuracy : 0.9869
 
 
-Prediction using both all sensor's variables and only four most important give same result on testing set pml-training.csv:
+Prediction using both all sensor's variables and only four most important variables gives same result on testing set pml-training.csv:
 
     (pred_tst = predict(modFit,newdata=test_set))
 
